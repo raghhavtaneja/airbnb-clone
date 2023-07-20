@@ -37,6 +37,7 @@ const RegisterModal = () => {
       .then(() => {
         toast.success("Registered");
         registerModal.onClose();
+        loginModal.onOpen();
       })
       .catch((error) => {
         toast.error("Something went wrong!");
@@ -78,36 +79,39 @@ const RegisterModal = () => {
     </div>
   );
 
-  const toggle = useCallback(()=>{
+  const toggle = useCallback(() => {
     registerModal.onClose();
     loginModal.onOpen();
-  },[loginModal,registerModal])
+  }, [loginModal, registerModal]);
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
-      <hr/>
-      <Button 
+      <hr />
+      <Button
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={()=>{signIn('google')}}
+        onClick={() => {
+          signIn("google");
+        }}
         outline
       />
-       <Button 
+      <Button
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={()=>{signIn('github')}}
+        onClick={() => {
+          signIn("github");
+        }}
         outline
       />
       <div className="text-neutral-500 text-center mt-4 font-light">
         <div className="flex flex-row items-center gap-2 justify-center">
-        <div>
-          Already have an Account?
-        </div>
-        <div 
-          onClick={toggle}
-          className="text-neutral-800 hover:underline cursor-pointer">
-          Log in
-        </div>
+          <div>Already have an Account?</div>
+          <div
+            onClick={toggle}
+            className="text-neutral-800 hover:underline cursor-pointer"
+          >
+            Log in
+          </div>
         </div>
       </div>
     </div>

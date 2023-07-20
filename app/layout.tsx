@@ -1,35 +1,45 @@
 import { Nunito } from "next/font/google";
+
+import Navbar from "@/app/components/navbar/Navbar";
+import LoginModal from "@/app/components/modals/LoginModal";
+import RegisterModal from "@/app/components/modals/RegisterModal";
+
+import ToasterProvider from "@/app/providers/ToasterProvider";
+
 import "./globals.css";
-import Navbar from "./components/navbar/Navbar";
-import Modal from "./components/modals/Modal";
-import RegisterModal from "./components/modals/RegisterModal";
-import RentModal from "./components/modals/RentModal";
-import ToastProvider from "./providers/ToasterProvider";
-import LoginModal from "./components/modals/LoginModal";
+import ClientOnly from "./components/ClientOnly";
 import getCurrentUser from "./actions/getCurrentUser";
+import SearchModal from "./components/modals/SearchModal";
+import RentModal from "./components/modals/RentModal";
 
 export const metadata = {
-  title: "Clone - Holiday Homes & Apartment Rentals - Airbnb",
-  description: "Airbnb clone",
+  title: "Airbnb",
+  description: "Airbnb Clone",
 };
+
 const font = Nunito({
   subsets: ["latin"],
 });
+
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
-  // const currentUser = await prisma?.user.findUnique();
+
   return (
     <html lang="en">
-      <body>
-        <ToastProvider />
-        <LoginModal />
-        <RegisterModal />
-        <Navbar currentUser={currentUser} />
-        {children}
+      <body className={font.className}>
+        <ClientOnly>
+          <ToasterProvider />
+          <SearchModal />
+          <LoginModal />
+          <RegisterModal />
+          <RentModal />
+          <Navbar currentUser={currentUser} />
+        </ClientOnly>
+        <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
   );
